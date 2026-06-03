@@ -1,561 +1,703 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr" data-theme="dark">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-	<title></title>
-	<meta name="generator" content="LibreOffice 25.8.4.2 (Windows)"/>
-	<meta name="created" content="2026-06-02T15:55:10.474036200"/>
-	<meta name="changed" content="2026-06-02T15:55:50.513594800"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic-Frequency — Paroles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08080f;
+  --v1: #7c6fff;
+  --v2: #d47cff;
+  --v3: #5ee7ff;
+  --v4: #5fffc8;
+  --text: #eeeeff;
+  --text2: #9898c0;
+  --muted: #5050a0;
+  --glass: rgba(255,255,255,0.07);
+  --glass2: rgba(255,255,255,0.12);
+  --gb: rgba(255,255,255,0.18);
+  --blur: blur(28px) saturate(1.8);
+  --red: #ff6b6b;
+}
+[data-theme="light"] {
+  --bg: #e8e8f8;
+  --v1: #6a5af0;
+  --v2: #b060e0;
+  --v3: #1ab8d8;
+  --v4: #18c888;
+  --text: #18183a;
+  --text2: #5050a0;
+  --muted: #9090b8;
+  --glass: rgba(255,255,255,0.5);
+  --glass2: rgba(255,255,255,0.7);
+  --gb: rgba(255,255,255,0.8);
+  --blur: blur(28px) saturate(2);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background .4s, color .4s;
+}
+
+/* BG ORBS */
+.orb {
+  position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+  filter: blur(80px); opacity: .28;
+  animation: orbFloat 12s ease-in-out infinite;
+}
+.orb1 { width: 600px; height: 600px; background: radial-gradient(circle, #7c6fff 0%, transparent 70%); top: -200px; left: -150px; animation-delay: 0s; }
+.orb2 { width: 500px; height: 500px; background: radial-gradient(circle, #d47cff 0%, transparent 70%); top: 30%; right: -180px; animation-delay: -4s; }
+.orb3 { width: 400px; height: 400px; background: radial-gradient(circle, #5ee7ff 0%, transparent 70%); bottom: -120px; left: 30%; animation-delay: -8s; }
+[data-theme="light"] .orb { opacity: .12; }
+@keyframes orbFloat {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(30px,-40px) scale(1.08); }
+  66% { transform: translate(-20px,30px) scale(.94); }
+}
+
+/* LAYOUT */
+#app { position: relative; z-index: 2; max-width: 960px; margin: 0 auto; padding: 52px 28px 100px; }
+
+/* HEADER */
+.header { margin-bottom: 36px; }
+.brand {
+  font-family: 'Syne', sans-serif; font-size: 42px; font-weight: 800; letter-spacing: -.04em;
+  background: linear-gradient(135deg, var(--v1) 0%, var(--v2) 45%, var(--v3) 90%);
+  background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; animation: gradMove 5s ease infinite; line-height: 1.1;
+}
+.brand-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+@keyframes gradMove { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+/* SEARCH BAR */
+.search-wrap { position: relative; margin-bottom: 20px; }
+.search-wrap input {
+  width: 100%; padding: 18px 56px 18px 56px;
+  background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+  border: 1px solid var(--gb); border-radius: 20px;
+  color: var(--text); font-family: 'Outfit', sans-serif; font-size: 16px; outline: none;
+  transition: all .25s;
+  box-shadow: 0 8px 32px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.search-wrap input:focus {
+  border-color: var(--v1); background: rgba(124,111,255,.12);
+  box-shadow: 0 0 0 4px rgba(124,111,255,.18), 0 8px 32px rgba(124,111,255,.12), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.search-wrap input::placeholder { color: var(--muted); }
+.si { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; pointer-events: none; }
+.sc { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 4px; display: none; transition: color .15s; }
+.sc:hover { color: var(--red); }
+
+/* FILTER PILLS */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+.fpill {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 7px 18px; border-radius: 20px;
+  background: var(--glass); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.14);
+  color: var(--text2); cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.fpill:hover { border-color: var(--v1); color: var(--v1); background: rgba(124,111,255,.12); }
+.fpill.active {
+  border-color: var(--v1); background: linear-gradient(135deg, rgba(124,111,255,.22), rgba(212,124,255,.14));
+  color: var(--v1); box-shadow: 0 0 0 3px rgba(124,111,255,.18);
+}
+
+/* COUNT */
+.count-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.count-txt { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: .12em; }
+
+/* TRACK LIST */
+.list { display: flex; flex-direction: column; gap: 10px; }
+.track-card {
+  background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+  border: 1px solid rgba(255,255,255,.12); border-radius: 18px;
+  overflow: hidden; transition: border-color .2s, box-shadow .2s;
+  box-shadow: 0 4px 20px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.08);
+  animation: fadeIn .3s ease both;
+}
+.track-card:hover { border-color: rgba(124,111,255,.4); box-shadow: 0 8px 32px rgba(124,111,255,.15), inset 0 1px 0 rgba(255,255,255,.1); }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+.track-header {
+  display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer;
+  user-select: none;
+}
+.track-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); width: 28px; flex-shrink: 0; }
+.track-emoji { font-size: 22px; flex-shrink: 0; }
+.track-info { flex: 1; min-width: 0; }
+.track-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track-artist { font-size: 12px; color: var(--text2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track-meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.genre-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .06em;
+  padding: 3px 10px; border-radius: 10px; border: 1px solid; backdrop-filter: blur(8px);
+}
+.g-pop  { background: rgba(124,111,255,.1); color: #a78bfa; border-color: rgba(124,111,255,.3); }
+.g-rnb  { background: rgba(212,124,255,.1); color: #d47cff; border-color: rgba(212,124,255,.3); }
+.g-rap  { background: rgba(94,231,255,.1);  color: #5ee7ff; border-color: rgba(94,231,255,.3); }
+.g-rock { background: rgba(255,126,179,.1); color: #ff7eb3; border-color: rgba(255,126,179,.3); }
+.g-elec { background: rgba(95,255,200,.1);  color: #5fffc8; border-color: rgba(95,255,200,.3); }
+.g-soul { background: rgba(255,179,71,.1);  color: #ffb347; border-color: rgba(255,179,71,.3); }
+.g-var  { background: rgba(200,204,232,.1); color: #c8cce8; border-color: rgba(200,204,232,.25); }
+[data-theme="light"] .g-pop  { background: rgba(106,90,240,.1); color: #6a5af0; border-color: rgba(106,90,240,.3); }
+[data-theme="light"] .g-rnb  { background: rgba(176,96,224,.1); color: #b060e0; border-color: rgba(176,96,224,.3); }
+[data-theme="light"] .g-rap  { background: rgba(26,184,216,.1); color: #1ab8d8; border-color: rgba(26,184,216,.3); }
+[data-theme="light"] .g-rock { background: rgba(224,80,144,.1); color: #e05090; border-color: rgba(224,80,144,.3); }
+[data-theme="light"] .g-elec { background: rgba(24,200,136,.1); color: #18c888; border-color: rgba(24,200,136,.3); }
+[data-theme="light"] .g-soul { background: rgba(200,128,16,.1); color: #c88010; border-color: rgba(200,128,16,.3); }
+[data-theme="light"] .g-var  { background: rgba(80,80,160,.1); color: #5050a0; border-color: rgba(80,80,160,.25); }
+
+.chevron { font-size: 14px; color: var(--muted); transition: transform .3s cubic-bezier(.34,1.6,.64,1); }
+.track-card.open .chevron { transform: rotate(180deg); color: var(--v1); }
+
+/* LYRICS PANEL */
+.lyrics-panel { display: none; border-top: 1px solid rgba(255,255,255,.1); padding: 0 20px; }
+.track-card.open .lyrics-panel { display: block; animation: lyricsIn .3s ease both; }
+@keyframes lyricsIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+.lyrics-inner { padding: 20px 0 24px; }
+.lyrics-txt {
+  font-family: 'Outfit', sans-serif; font-size: 14px; line-height: 2; color: var(--text2);
+  white-space: pre-wrap; letter-spacing: .01em;
+}
+.lyrics-txt .verse-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); display: block; margin: 14px 0 4px; }
+.lyrics-txt .chorus { color: var(--text); font-weight: 500; }
+.lyrics-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.lbtn {
+  padding: 8px 20px; border-radius: 14px; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all .2s; border: none;
+}
+.lbtn-copy { background: linear-gradient(135deg,var(--v1),var(--v2)); color: #fff; box-shadow: 0 4px 16px rgba(124,111,255,.35); }
+.lbtn-copy:hover { filter: brightness(1.15); transform: translateY(-1px); }
+.lbtn-edit {
+  background: var(--glass); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.18);
+  color: var(--text2);
+}
+.lbtn-edit:hover { border-color: var(--v3); color: var(--v3); background: rgba(94,231,255,.1); }
+.empty-lyrics {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); font-style: italic;
+  text-align: center; padding: 24px 0;
+}
+
+/* EDIT TEXTAREA */
+.lyrics-edit { display: none; }
+.lyrics-edit.open { display: flex; flex-direction: column; gap: 10px; }
+.lyrics-edit textarea {
+  width: 100%; min-height: 180px; padding: 14px 16px;
+  background: rgba(0,0,0,.2); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.15); border-radius: 14px;
+  color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7;
+  outline: none; resize: vertical; transition: border-color .2s;
+}
+.lyrics-edit textarea:focus { border-color: var(--v2); box-shadow: 0 0 0 3px rgba(212,124,255,.18); }
+.edit-actions { display: flex; gap: 8px; }
+.lbtn-save { background: linear-gradient(135deg,var(--v4),var(--v3)); color: #08080f; box-shadow: 0 4px 16px rgba(95,255,200,.3); }
+.lbtn-save:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.lbtn-cancel { background: var(--glass); border: 1px solid rgba(255,255,255,.15); color: var(--muted); }
+.lbtn-cancel:hover { border-color: var(--red); color: var(--red); }
+
+/* NO RESULTS */
+.no-res { text-align: center; padding: 64px 20px; color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+
+/* FLOAT BTNS */
+.float-btns { position: fixed; bottom: 28px; right: 28px; z-index: 500; display: flex; gap: 12px; }
+.fbtn {
+  width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(255,255,255,.2);
+  display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer;
+  transition: transform .28s cubic-bezier(.34,1.6,.64,1), filter .2s;
+  box-shadow: 0 8px 28px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.22);
+  position: relative; overflow: hidden;
+}
+.fbtn::after {
+  content: ''; position: absolute; top: 4px; left: 8px; right: 8px; height: 38%;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  background: linear-gradient(180deg, rgba(255,255,255,.35) 0%, transparent 100%);
+  pointer-events: none;
+}
+.fbtn:hover { transform: scale(1.15) translateY(-3px); filter: brightness(1.15); }
+.fbtn:active { transform: scale(.88); }
+.fbtn-theme { background: linear-gradient(145deg,#7c6fff,#d47cff); color: #fff; }
+.fbtn-add { background: linear-gradient(145deg,#5ee7ff,#5fffc8); color: #08080f; }
+@keyframes pulseV { 0%,100%{box-shadow:0 0 0 0 rgba(124,111,255,.4),0 8px 28px rgba(124,111,255,.5)} 50%{box-shadow:0 0 0 8px rgba(124,111,255,0),0 8px 28px rgba(124,111,255,.7)} }
+.fbtn-theme { animation: pulseV 3s ease-in-out infinite; }
+
+/* ADD MODAL */
+.modal-bg {
+  display: none; position: fixed; inset: 0; z-index: 800;
+  background: rgba(0,0,0,.55); backdrop-filter: blur(20px); align-items: center; justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: rgba(15,15,26,.8); backdrop-filter: blur(40px) saturate(2); -webkit-backdrop-filter: blur(40px) saturate(2);
+  border: 1px solid rgba(255,255,255,.18); border-radius: 28px; padding: 32px;
+  width: 580px; max-width: 95vw; max-height: 90vh; overflow-y: auto;
+  position: relative; animation: modalPop .4s cubic-bezier(.34,1.6,.64,1);
+  box-shadow: 0 32px 96px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12);
+  display: flex; flex-direction: column; gap: 18px;
+}
+[data-theme="light"] .modal { background: rgba(255,255,255,.7); }
+@keyframes modalPop { from{opacity:0;transform:scale(.82) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+.modal-head { display: flex; align-items: center; justify-content: space-between; }
+.modal-title {
+  font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700;
+  background: linear-gradient(135deg,var(--v1),var(--v2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.modal-x {
+  width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+  color: var(--muted); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s;
+}
+.modal-x:hover { color: var(--text); background: rgba(255,107,107,.18); border-color: var(--red); }
+.mfield { display: flex; flex-direction: column; gap: 6px; }
+.mlbl { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.mfield input, .mfield select, .mfield textarea {
+  background: rgba(255,255,255,.07); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.18); border-radius: 12px;
+  color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px;
+  padding: 11px 14px; outline: none; transition: all .2s; width: 100%;
+}
+.mfield input:focus, .mfield select:focus, .mfield textarea:focus { border-color: var(--v1); box-shadow: 0 0 0 3px rgba(124,111,255,.2); }
+.mfield input::placeholder, .mfield textarea::placeholder { color: var(--muted); }
+.mfield select { appearance: none; cursor: pointer; }
+.mfield textarea { min-height: 140px; resize: vertical; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; }
+.mrow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.mbtn-save { width: 100%; padding: 14px; background: linear-gradient(135deg,var(--v1),var(--v2)); border: none; border-radius: 16px; color: #fff; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .2s; box-shadow: 0 6px 24px rgba(124,111,255,.4); }
+.mbtn-save:hover { filter: brightness(1.15); box-shadow: 0 8px 32px rgba(124,111,255,.55); }
+
+/* HIGHLIGHT */
+mark { background: rgba(212,124,255,.3); color: var(--text); border-radius: 3px; padding: 0 2px; }
+[data-theme="light"] mark { background: rgba(176,96,224,.25); }
+</style>
 </head>
-<body lang="fr-FR" dir="ltr"><p align="center"><font size="4" style="font-size: 14pt"><u>Paroles
-Musiques</u></font></p>
-<p align="center"><font size="4" style="font-size: 14pt"><u>1
-disponible</u></font></p>
-<ul>
-	<li><p>LVC - Shotas-Koba LaD</p></li>
-	<li><p>Flying Blue - La Fouine ft. L2B</p></li>
-	<li><p>Six-Seven - Laurinha Costa (ft. Dj Cabello &amp; Dj Tchouzen)</p></li>
-	<li><p>Mr Saxobeat - Alexandra Stan</p></li>
-	<li><p>Tiki Tiki - Qmir (QMIIR)</p></li>
-	<li><p>Pilier - Ninho</p></li>
-	<li><p>Yeah - Usher (ft. Lil Jon &amp; Ludacris)</p></li>
-	<li><p>When We Were Young - David Guetta &amp; Kim Petras</p></li>
-	<li><p>Walking Away (Infinity) - Matway &amp; June</p></li>
-	<li><p>Wesh Alors - Jul</p></li>
-	<li><p>Vida Loca - Magic System</p></li>
-	<li><p>Where Are You Now - Lost Frequencies ft. Calum Scott</p></li>
-	<li><p>Never Back Down - Two Steps From Hell</p></li>
-	<li><p>Tropical - Jul</p></li>
-	<li><p>Titanium - David Guetta ft. Sia</p></li>
-	<li><p>Tu me rends bête - Gims (ft. Damso)</p></li>
-	<li><p>Trailer Sport Stylish - Anton Vlasov</p></li>
-	<li><p>Thunder - Gabry Ponte &amp; Lumix (ft. Prezioso)</p></li>
-	<li><p>The Final Countdown - Europe</p></li>
-	<li><p>This Is the Life - Amy Macdonald</p></li>
-	<li><p>The Sound of Silence - Cyril</p></li>
-	<li><p>The Magic Key - Trinix</p></li>
-	<li><p>The Fate of Ophélia - Taylor Swift</p></li>
-	<li><p>The Dead Dance - Lady Gaga</p></li>
-	<li><p>Terminal 2F - Gims &amp; Dadju</p></li>
-	<li><p>Tatoo - Loreen</p></li>
-	<li><p>Tahiti - Keen'V</p></li>
-	<li><p>Sur ma Route - Black M</p></li>
-	<li><p>Symphonie en Do - G. Bizet</p></li>
-	<li><p>Sonate Clair de Lune 3 - Beethoven</p></li>
-	<li><p>Sun Is Up - Inna</p></li>
-	<li><p>Spider - Gims</p></li>
-	<li><p>SPA - Gims &amp; Théodora</p></li>
-	<li><p>Sonate Clair de Lune 1 - Beethoven</p></li>
-	<li><p>Shake It to the Max - FLY</p></li>
-	<li><p>Sois pas Timide - Gims</p></li>
-	<li><p>Someone to be Mine - Boris Way &amp; Topic</p></li>
-	<li><p>Some Kind of Kiss - Sound of Legend</p></li>
-	<li><p>Somewhere - West Side Story (Bernstein)</p></li>
-	<li><p>Sapés comme jamais - Gims</p></li>
-	<li><p>Samba de Janeiro - Bellini</p></li>
-	<li><p>Rondo alla Turca - W.A. Mozart</p></li>
-	<li><p>Rush E - Andrew Wrangell</p></li>
-	<li><p>Prélude et Allegro - Fritz Kreisler</p></li>
-	<li><p>Rock my Body - R3HAB, Inna &amp; Sash</p></li>
-	<li><p>Phénoménal - Jul</p></li>
-	<li><p>Queen of my Castle - Kris Kross Amsterdam &amp; Inna</p></li>
-	<li><p>Que Pasa - Dr. Yaro</p></li>
-	<li><p>Play Hard - David Guetta</p></li>
-	<li><p>Parisienne - Gims &amp; La Mano 1.9</p></li>
-	<li><p>Pepas - Farruko</p></li>
-	<li><p>One in a Million - David Guetta &amp; Rexha</p></li>
-	<li><p>Minimum Ça - Dr. Yaro</p></li>
-	<li><p>Never Going Home Tonight - David Guetta &amp; Alesso</p></li>
-	<li><p>Ninao - Gims</p></li>
-	<li><p>Nostalgique - Jul</p></li>
-	<li><p>Nouveau Jingle IDFM - IDFM</p></li>
-	<li><p>Moonlight Shadow - Sound of Legend</p></li>
-	<li><p>My Heart Will Go On - Céline Dion</p></li>
-	<li><p>Mr / Mme - Loïc Nottet</p></li>
-	<li><p>Moulaga - Jul &amp; Heuss l'Enfoiré</p></li>
-	<li><p>Miss You - Oliver Tree &amp; Robin Schulz</p></li>
-	<li><p>Monster - Gabry Ponte &amp; Lumix</p></li>
-	<li><p>Memories - Sam Feldt &amp; Jonas Blue</p></li>
-	<li><p>Melrose Place - Keblack</p></li>
-	<li><p>Mélodrama - Théodora &amp; Diziz</p></li>
-	<li><p>Make You Mouv -</p></li>
-	<li><p>Magic in the Air - Magic System</p></li>
-	<li><p>Ma Chérie - DJ Antoine &amp; The Beat Shakers</p></li>
-	<li><p>Macarena - Los del Río</p></li>
-	<li><p>Madrid City - Ana Mena</p></li>
-	<li><p>Ma jolie - Jul</p></li>
-	<li><p>Logobitombo - Moussier Tombola</p></li>
-	<li><p>Loca Loca - R3HAB &amp; Pelican</p></li>
-	<li><p>Les Démons de Minuit - Images</p></li>
-	<li><p>Lettre à Elise - Beethoven</p></li>
-	<li><p>Le Coach - Soprano</p></li>
-	<li><p>In My Mind - Dynoro &amp; Gigi D'Agostino</p></li>
-	<li><p>Laissez passer - Gims</p></li>
-	<li><p>Lacrimosa - W.A. Mozart</p></li>
-	<li><p>I'm Yours - Jason Mraz</p></li>
-	<li><p>Is It Love - Loreen</p></li>
-	<li><p>La Reine de Coeur - Francis Poulenc</p></li>
-	<li><p>Fantaisie Alto - J.N. Hummel</p></li>
-	<li><p>I Like to Move it - MIMAA &amp; Manos</p></li>
-	<li><p>I'm Good (Blue) - David Guetta &amp; Bebe Rexha</p></li>
-	<li><p>I'm Still Standing - Sound of Legend</p></li>
-	<li><p>I Don't Wanna Wait - David Guetta &amp; OneRepublic</p></li>
-	<li><p>I Gotta Feeling - Black Eyed Peas</p></li>
-	<li><p>I Can Feel - Léonie &amp; Niklas Dee</p></li>
-	<li><p>I Adore You - Hugel, Topic &amp; Arash</p></li>
-	<li><p>Hearts Still Beating - Nathan Dawe &amp; Bebe Rexha</p></li>
-	<li><p>Hôtel Room Service - Pitbull</p></li>
-	<li><p>Golden - Kpop Demon Hunters</p></li>
-	<li><p>Gone Gone Gone - David Guetta, Teddy Swims &amp; Tones and I</p></li>
-	<li><p>God is a Girl - Sound of Legend &amp; Groove Coverage</p></li>
-	<li><p>Gimme Gimme Gimme - ABBA</p></li>
-	<li><p>Gangnam Style - PSY</p></li>
-	<li><p>Get Lucky - Daft Punk</p></li>
-	<li><p>Game Started - Sound of Legend</p></li>
-	<li><p>Freestyler - Bomfunk MC's</p></li>
-	<li><p>Forever Young - David Guetta, Ava Max &amp; Alphaville</p></li>
-	<li><p>Free - Calvin Harris &amp; Ellie Goulding</p></li>
-	<li><p>Freed From Desire - Gala</p></li>
-	<li><p>Falbala - Carbonne</p></li>
-	<li><p>For Sure - Welox &amp; Emmanuel Macron</p></li>
-	<li><p>Everytime We Touch - Cascada</p></li>
-	<li><p>Est-ce que tu m'aimes - Gims</p></li>
-	<li><p>Exotica - Gabry Ponte</p></li>
-	<li><p>Eine Kleine Nachtmusik - W.A. Mozart</p></li>
-	<li><p>En Feu - Soprano</p></li>
-	<li><p>Despacito - Luis Fonsi &amp; Daddy Yankee</p></li>
-	<li><p>Ego - Willy William</p></li>
-	<li><p>Elektronomia - Sky High</p></li>
-	<li><p>Diamonds - Rihanna</p></li>
-	<li><p>Dernière Danse - Indila</p></li>
-	<li><p>Dépassé - Nuit Incolore</p></li>
-	<li><p>Dancing in the Flames - The Weeknd</p></li>
-	<li><p>Danza Kuduro - Don Omar ft. Lucenzo</p></li>
-	<li><p>Dame Un Grr - Fantomel &amp; Kath Linn</p></li>
-	<li><p>Crazy Frog (Axel F) - Crazy Frog</p></li>
-	<li><p>Crying in the Dancefloor - Sam Feldt &amp; Sofiloud</p></li>
-	<li><p>Crusade - Gabry Ponte</p></li>
-	<li><p>Concerto en Do m - J.C. Bach</p></li>
-	<li><p>Cover Me in Sunshine - Pink &amp; Willow Sage Hart</p></li>
-	<li><p>Coffin Dance - Astronomia (Vicetone)</p></li>
-	<li><p>Ciel - Gims</p></li>
-	<li><p>Clic clic pan pan - Yanns</p></li>
-	<li><p>C'est la Vie - Khaled</p></li>
-	<li><p>Charger - TDB</p></li>
-	<li><p>Chemin d'Or - Werenoi</p></li>
-	<li><p>Born to Love Ya - Gabry Ponte, Natinatasha &amp; Sean Paul</p></li>
-	<li><p>Bigroom EDM -</p></li>
-	<li><p>Bwo - Jul</p></li>
-	<li><p>Bloqué - Gims &amp; L2B</p></li>
-	<li><p>Bande Organisée - Jul, SCH, Kofs, Naps…</p></li>
-	<li><p>Blake TT -</p></li>
-	<li><p>Bella - Gims</p></li>
-	<li><p>Asalto - Jul</p></li>
-	<li><p>Béné - PNL</p></li>
-	<li><p>Believe - Upsilone</p></li>
-	<li><p>Beautiful People - David Guetta &amp; Sia</p></li>
-	<li><p>Basique - Orelsan</p></li>
-	<li><p>Around the World - Niklas Dee</p></li>
-	<li><p>1-28 -</p></li>
-	<li><p>APT. - Rosé &amp; Bruno Mars</p></li>
-	<li><p>Air Force Blanche - Gims &amp; Jul</p></li>
-	<li><p>Alors la Zone - Jul</p></li>
-	<li><p>Appelle moi l'Ovni - Jul</p></li>
-	<li><p>Abracadabra - Lady Gaga</p></li>
-	<li><p>ABCDEFU - Gayle</p></li>
-	<li><p>You Keep Me Hangin' On - Sound of Legend</p></li>
-	<li><p>Unstoppable - Sia</p></li>
-	<li><p>San Francisco - Sound of Legend</p></li>
-	<li><p>Espresso - Sabrina Carpenter</p></li>
-	<li><p>Flowers - Miley Cyrus</p></li>
-	<li><p>One More Time - Daft Punk</p></li>
-	<li><p>Gata Only - FloyyMenor ft. Cris MJ</p></li>
-	<li><p>Cheri Cheri Lady - Modern Talking</p></li>
-	<li><p>Don't Stop the Music - Rihanna</p></li>
-	<li><p>Beggin - Måneskin</p></li>
-	<li><p>Billie Jean - Michael Jackson</p></li>
-</ul>
-<p align="center"><font size="4" style="font-size: 14pt"><u>LVC –
-Shotas ft Koba La D.</u></font></p>
-<p><br/>
-<br/>
+<body>
 
-</p>
-<p style="margin-bottom: 0cm; line-height: 100%; font-weight: normal; font-style: normal; letter-spacing: normal; font-variant: normal">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Ouais<br/>
-Que
-tu sais qu'c'est nous, que nous, la gestu', on l'a d'jà bloquée<br/>
-On
-vient t'faire un blocus mais harba tselek si y'a la focus<br/>
-De la
-gue-dro près des boules, déboule et les guetteurs près du
-bloc<br/>
-J'vends plus d'détail, j'fais plus d'bloc<br/>
-Toujours en
-loc', souvent une nouvelle plaque</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">J'me
-rappelle, j'étais p'tit, inconnu sur l'terrain<br/>
-Les plus grands
-m'prenaient pour un imbécile<br/>
-Aujourd'hui, disques d'or, singles
-d'or<br/>
-Singles d'or et la plupart d'entre eux demande des
-feat'<br/>
-J'suis avec Koba LaD, ton pote t'a lâché, oh merde, oh
-la D<br/>
-On est dans l'gamos, on se balade<br/>
-Si y'a haja,
-t'inquiète, viens nous appeler</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Quand
-elle m'suce la bite dans ma suite<br/>
-J'repense à toutes ces années
-dans l'binks, sa mère<br/>
-Les perquis', les pleurs de ma mère<br/>
-Les
-bonbonnes et les traces de dos sur le mur<br/>
-Les traces de dos sur
-le mur<br/>
-Les poucaves, les tre-traî, on en a marre<br/>
-Y'a que à
-nos daronnes qu'on donne d'l'amour<br/>
-Et nous, on se côtoyait
-avant qu'ça marche</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">J'suis
-avec Caflo, Famas et Shotas<br/>
-Au fond d'la tess, rien que les
-sses-lia s'entassent<br/>
-Plus forts que tous ceux de l'actu et tout
-est compté<br/>
-Séparés par sses-lia de mille<br/>
-Récupère des
-liasses de mille, dans l'gobelet, rajoute du miel<br/>
-Sur l'terrain,
-faut être agile, pas d'égalité, je fais pas la belle</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Et
-quand j'la baise, j'la baise, j'la baise<br/>
-J'fais comme aux
-States, j'lui bouffe la schnek<br/>
-Liquide, virements, quelques fois
-chèques<br/>
-Dix ans d'salaire en un week-end</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Je
-pense qu'au bénéf', je pense, je pense qu'au bénéf'<br/>
-Je pense
-qu'au bénéf', je pense, je pense qu'au bénéf'<br/>
-Je pense qu'au
-bénéf', je pense, je pense qu'au bénéf'<br/>
-Je pense qu'au
-bénéf', je pense, je pense qu'au bénéf'</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Maintenant,
-j'encaisse, j'encaisse, j'encaisse<br/>
-Mon champagne bulle, mon
-pilon pull<br/>
-Jamais en-dessous du demi-plein<br/>
-Et j'rentre avec
-le plus gros boule</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">J'me
-rappelle, j'étais comme toi, avant d'être là, j'étais en bas<br/>
-Mais
-j'ai du pot, moi, j'ai pu ver-squi, ah<br/>
-Mais loin du cartel
-depuis que j'trill<br/>
-Oui, j'ai l'shit qui cogne, la pegue qui
-trouble<br/>
-À 240, j'ai le cœur qui tremble<br/>
-Dans l'A45 avec,
-j'fais des driblles<br/>
-Dans la sacoche, j'ai la carte qui dit pas
-non</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">J'remporte
-la guerre, j'prends le trophée<br/>
-Et des temps-plein, crois-moi
-qu'j'en ai trop fait<br/>
-J'préfère la maille, chaudasse n'est pas
-trop fille<br/>
-Et si c'est à refaire, on le refait<br/>
-T'as pas
-d'oseille, tartine dans l're-fou<br/>
-C'est le manque d'argent qui
-nous rend tous fous<br/>
-T'es amoureuse, c'est sûr que je m'en
-fous<br/>
-Y'a les 22, c'est sûr que je m'enfuis</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">J'suis
-écouté, maintenant, j'suis entendu<br/>
-T'as fini la journée, fais
-l'compte-rendu<br/>
-T'as poucave ton pote, t'as fait le vendu (sale
-pute)<br/>
-Au calme, tu vas juste finir pendu</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Elle
-a mouillé, j'ai pas bandé<br/>
-La chatte pas rasée, elle m'a fait
-débander<br/>
-Faut les écraser comme des bandits<br/>
-Te-ma le
-succès comment ça grandit</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Et
-quand j'la baise, j'la baise, j'la baise<br/>
-J'fais comme aux
-States, j'lui bouffe la schnek<br/>
-Liquide, virements, quelques fois
-chèques<br/>
-Dix ans d'salaire en un week-end</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Je
-pense qu'au bénéf', je pense, je pense qu'au bénéf'<br/>
-Je pense
-qu'au bénéf', je pense, je pense qu'au bénéf'<br/>
-Je pense qu'au
-bénéf', je pense, je pense qu'au bénéf'<br/>
-Je pense qu'au
-bénéf', je pense, je pense qu'au bénéf'</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Et
-quand j'la baise, j'la baise, j'la baise<br/>
-J'fais comme aux
-States, j'lui bouffe la schnek<br/>
-Liquide, virements, quelques fois
-chèques<br/>
-Dix ans d'salaire en un week-end</font></font></font></p>
-<p style="margin-bottom: 0cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Bénèf'<br/>
-Bénèf'</font></font></font></p>
-<p><br/>
-<br/>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
 
-</p>
-<p align="center"><font color="#000000"><font face="Liberation Serif, serif"><font size="4" style="font-size: 14pt"><u>Flying
-Blue – La Fouine – L2B</u></font></font></font></p>
-<p align="center"><br/>
-<br/>
+<div id="app">
+  <div class="header">
+    <div class="brand">🎵 Cosmic-Frequency</div>
+    <div class="brand-sub">Bibliothèque de paroles · <span id="totalCount">0</span> pistes</div>
+  </div>
 
-</p>
-<p align="left" style="margin-bottom: 0cm; line-height: 100%; font-weight: normal; font-variant: normal; font-style: normal; letter-spacing: normal">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Ban-Banlieue
-Sale Music<br/>
-(Biggie Jo on the beat)<br/>
-Ban-Banlieue Sale</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">C'est
-holiday, eux, ils boudent<br/>
-Everyday, c'est very good<br/>
-J'vois
-ma tess dans l'hublot<br/>
-J'fais grimper les miles sur Flying
-Blue<br/>
-Flying Blue, Flying Blue<br/>
-Everyday, c'est very
-good<br/>
-J'vois ma tess dans l'hublot<br/>
-J'fais grimper les miles
-sur Flying Blue</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Bou-bou-bounce,
-baby rebondit<br/>
-Moi, j'étais au shtar avec les gars de Bondy (for
-real)<br/>
-À ma gauche, à ma droite, y a des bandits (for
-real)<br/>
-Ceux qui t'mettent sur une chaise, les yeux bandés (pah,
-pah)<br/>
-Et la cagoule, c'est pas que pour Mardi Gras ('di gras)<br/>
-Tu
-veux quoi? Du filtré, du gras? (Du gras)<br/>
-Tu veux quoi? D'la
-zipette, d'l'héro'? (D'l'héro')<br/>
-J'fume un joint, les p'tits
-font des roues<br/>
-J'm'endors en G.À.V, j'ai des rêves
-d'homicide<br/>
-78, Bois-d'Ar' et j'tombe à domicile<br/>
-J'viens
-d'bédave au moins deux missiles<br/>
-J'me sens comme si j'étais
-deux Messi (deux Messi)<br/>
-IDS, D2, 2004, j'allais déjà braquer
-ED<br/>
-Vous êtes tombés pour à peine deux G<br/>
-On les fout en
-L2, nous, c'est L2B</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">J'suis
-en carré, j'me souviens plus d'la soirée<br/>
-J'suis sous Ruinart
-(Ruinart, Ruinart)<br/>
-J'ai toujours mon doré au bec<br/>
-Tu peux
-m'croiser dans un Velar (Velar, Velar)<br/>
-Des fois, j'oublie
-qu'j'suis connu<br/>
-J'me balade seul dans Paname (seul dans
-Paname)<br/>
-Ces petits connaissent mon gang<br/>
-À la vie, à la
-mort, le gang, le gang</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">C'est
-holiday, eux, ils boudent<br/>
-Everyday, c'est very good<br/>
-J'vois
-ma tess dans l'hublot<br/>
-J'fais grimper les miles sur Flying
-Blue<br/>
-Flying Blue, Flying Blue<br/>
-Everyday, c'est very
-good<br/>
-J'vois ma tess dans l'hublot<br/>
-J'fais grimper les miles
-sur Flying Blue</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">J'ai
-l'élégance à Sarkozy<br/>
-Si y a mes nintch', c'est pas pour
-causer<br/>
-J'ai calé un nine dans l'cosy<br/>
-Proximité, près
-d'un pour les dossiers<br/>
-J'vais manger au Nobu mais pas pour la
-frime<br/>
-Ils ont pas un euro, donc ils veulent ma vie<br/>
-J'arrive
-en Velar, ouais, tellement on brille<br/>
-Tellement on brille, c'est
-même pas mon anniv' (j'suis avec Laouni)</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">C'est
-holiday, eux, ils boudent<br/>
-Everyday, c'est very good<br/>
-J'vois
-ma tess dans l'hublot<br/>
-J'fais grimper les miles sur Flying
-Blue<br/>
-Flying Blue, Flying Blue<br/>
-Everyday, c'est very
-good<br/>
-J'vois ma tess dans l'hublot<br/>
-J'fais grimper les miles
-sur Flying Blue</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">J'ai
-des liasses toutes bleues, toutes vertes (toutes vertes)<br/>
-Y aura
-que des jaunes, comme ma cons' (ma cons')<br/>
-La caution, c'est une
-baraque au bled (au bled)<br/>
-La potion, c'est le sirop pomme
-vert<br/>
-J'ai pas pé-ra pour l'buzz, j'arrive tout en BS<br/>
-Bang,
-j'donne de la force à la BS<br/>
-Gang, depuis la DS, j'reste à la
-tess</font></font></font></p>
-<p style="margin-bottom: 0cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">C'est
-holiday, eux, ils boudent<br/>
-Everyday, c'est very good<br/>
-J'vois
-ma tess dans l'hublot<br/>
-J'fais grimper les miles sur Flying
-Blue<br/>
-Flying Blue, Flying Blue<br/>
-Everyday, c'est very
-good<br/>
-J'vois ma tess dans l'hublot<br/>
-J'fais grimper les miles
-sur Flying Blue</font></font></font></p>
-<p align="left"><br/>
-<br/>
+  <div class="search-wrap">
+    <span class="si">🔍</span>
+    <input type="text" id="search" placeholder="Rechercher un titre, artiste, paroles…" oninput="doSearch()">
+    <button class="sc" id="clearBtn" onclick="clearSearch()">✕</button>
+  </div>
 
-</p>
-<p align="center"><font color="#000000"><font face="Liberation Serif, serif"><font size="4" style="font-size: 14pt"><u>Six-Seven
-– Lohrina Costa</u></font></font></font></p>
-<p align="center"><br/>
-<br/>
+  <div class="filters">
+    <button class="fpill active" onclick="setGenre('all',this)">Tous</button>
+    <button class="fpill" onclick="setGenre('pop',this)">Pop</button>
+    <button class="fpill" onclick="setGenre('rnb',this)">R&B</button>
+    <button class="fpill" onclick="setGenre('rap',this)">Rap</button>
+    <button class="fpill" onclick="setGenre('rock',this)">Rock</button>
+    <button class="fpill" onclick="setGenre('elec',this)">Électro</button>
+    <button class="fpill" onclick="setGenre('soul',this)">Soul</button>
+    <button class="fpill" onclick="setGenre('var',this)">Variété</button>
+  </div>
 
-</p>
-<p align="left" style="margin-bottom: 0cm; line-height: 100%">Non
-dispo</p>
-<p align="left" style="margin-bottom: 0cm; line-height: 100%"><br/>
+  <div class="count-bar">
+    <span class="count-txt" id="countTxt">— pistes</span>
+  </div>
 
-</p>
-<p align="left" style="margin-bottom: 0cm; line-height: 100%"><br/>
+  <div class="list" id="list"></div>
+  <div class="no-res" id="noRes" style="display:none">🔍 Aucune piste trouvée</div>
+</div>
 
-</p>
-<p align="center" style="margin-bottom: 0cm; line-height: 100%"><font size="4" style="font-size: 14pt"><u>Mr
-Saxobeat – Alexandra Stan</u></font></p>
-<p align="center" style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
-<br/>
+<!-- FLOAT BTNS -->
+<div class="float-btns">
+  <button class="fbtn fbtn-add" onclick="openAdd()" title="Ajouter une piste">✚</button>
+  <button class="fbtn fbtn-theme" onclick="toggleTheme()" id="themeBtn" title="Thème">🌙</button>
+</div>
 
-</p>
-<p align="left" style="margin-bottom: 0cm; line-height: 100%; font-variant: normal; font-weight: normal; font-style: normal; letter-spacing: normal; text-decoration: none">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">You
-make me this, bring me up, bring me down, play it sweet<br/>
-Make me
-move like a freak, Mr. Saxobeat<br/>
-Makes me this, brings me up,
-brings me down, plays it sweet<br/>
-Makes me move like a freak, Mr.
-Saxobeat<br/>
-You make me this, bring me up, bring me down, play it
-sweet<br/>
-Make me move like a freak, Mr. Saxobeat<br/>
-Makes me
-this, brings me up, brings me down, plays it sweet<br/>
-Makes me move
-like a freak, (Mr. Saxobeat) Mr. Saxobeat</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2; text-decoration: none">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Hey,
-sexy boy, set me free, don't be so shy, play with me<br/>
-My dirty
-boy, can't you see that you belong next to me<br/>
-Hey, sexy boy, set
-me free, don't be so shy, play with me<br/>
-My dirty boy, can't you
-see, you are the one I need</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2; text-decoration: none">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">You
-make me this, bring me up, bring me down, play it sweet<br/>
-Make me
-move like a freak, Mr. Saxobeat<br/>
-Makes me this, brings me up,
-brings me down, plays it sweet<br/>
-Makes me move like a freak<br/>
-Mr.
-Saxobeat, Mr. Saxo-, Mr. Saxo- Mr. Saxo-, Mr. Saxo-, Mr. Saxo-<br/>
-Mr.
-Saxo-, Mr. Saxo-, Mr.-, Mr.-, Mr.-, Mr.-<br/>
-Mr. Saxobeat</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2; text-decoration: none">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Mr.
-Saxobeat</font></font></font></p>
-<p style="margin-bottom: 0.32cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2; text-decoration: none">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">Mr.
-Saxobeat</font></font></font></p>
-<p style="margin-bottom: 0cm; line-height: 100%; orphans: 2; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; widows: 2; text-decoration: none">
-<font color="#000000"><font face="Liberation Serif, serif"><font size="3" style="font-size: 12pt">You
-make me this, bring me up, bring me down, play it sweet<br/>
-Make me
-move like a freak, Mr. Saxobeat<br/>
-Makes me this, brings me up,
-brings me down, plays it sweet<br/>
-Makes me move like a freak<br/>
-Mr.
-Saxobeat, Mr. Saxobeat</font></font></font></p>
-<p align="left" style="margin-bottom: 0cm; line-height: 100%; text-decoration: none">
-<br/>
+<!-- ADD MODAL -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title">✨ Ajouter une piste</span>
+      <button class="modal-x" onclick="closeAdd()">✕</button>
+    </div>
+    <div class="mrow">
+      <div class="mfield">
+        <div class="mlbl">Titre *</div>
+        <input id="mf-title" type="text" placeholder="Nom de la chanson">
+      </div>
+      <div class="mfield">
+        <div class="mlbl">Artiste *</div>
+        <input id="mf-artist" type="text" placeholder="Artiste / Groupe">
+      </div>
+    </div>
+    <div class="mrow">
+      <div class="mfield">
+        <div class="mlbl">Genre</div>
+        <select id="mf-genre">
+          <option value="var">Variété</option>
+          <option value="pop">Pop</option>
+          <option value="rnb">R&B</option>
+          <option value="rap">Rap</option>
+          <option value="rock">Rock</option>
+          <option value="elec">Électro</option>
+          <option value="soul">Soul</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <div class="mlbl">Émoji</div>
+        <input id="mf-emoji" type="text" placeholder="🎵" maxlength="4">
+      </div>
+    </div>
+    <div class="mfield">
+      <div class="mlbl">Paroles</div>
+      <textarea id="mf-lyrics" placeholder="Colle ici les paroles…&#10;Tu peux utiliser [Couplet 1], [Refrain], etc."></textarea>
+    </div>
+    <button class="mbtn-save" onclick="saveTrack()">✅ Ajouter à la bibliothèque</button>
+  </div>
+</div>
 
-</p>
+<script>
+// ═══════════════════ DONNÉES — 161 PISTES ═══════════════════
+// Remplis les champs `lyrics` avec les vraies paroles.
+// Format libre : utilise [Couplet 1], [Refrain], [Bridge], etc.
+const TRACKS = [
+  {id:1,  emoji:"🎵", title:"Titre 001", artist:"Artiste 001", genre:"pop",  lyrics:""},
+  {id:2,  emoji:"🎵", title:"Titre 002", artist:"Artiste 002", genre:"rnb",  lyrics:""},
+  {id:3,  emoji:"🎵", title:"Titre 003", artist:"Artiste 003", genre:"rap",  lyrics:""},
+  {id:4,  emoji:"🎵", title:"Titre 004", artist:"Artiste 004", genre:"pop",  lyrics:""},
+  {id:5,  emoji:"🎵", title:"Titre 005", artist:"Artiste 005", genre:"rock", lyrics:""},
+  {id:6,  emoji:"🎵", title:"Titre 006", artist:"Artiste 006", genre:"elec", lyrics:""},
+  {id:7,  emoji:"🎵", title:"Titre 007", artist:"Artiste 007", genre:"soul", lyrics:""},
+  {id:8,  emoji:"🎵", title:"Titre 008", artist:"Artiste 008", genre:"var",  lyrics:""},
+  {id:9,  emoji:"🎵", title:"Titre 009", artist:"Artiste 009", genre:"pop",  lyrics:""},
+  {id:10, emoji:"🎵", title:"Titre 010", artist:"Artiste 010", genre:"rnb",  lyrics:""},
+  {id:11, emoji:"🎵", title:"Titre 011", artist:"Artiste 011", genre:"rap",  lyrics:""},
+  {id:12, emoji:"🎵", title:"Titre 012", artist:"Artiste 012", genre:"pop",  lyrics:""},
+  {id:13, emoji:"🎵", title:"Titre 013", artist:"Artiste 013", genre:"rock", lyrics:""},
+  {id:14, emoji:"🎵", title:"Titre 014", artist:"Artiste 014", genre:"elec", lyrics:""},
+  {id:15, emoji:"🎵", title:"Titre 015", artist:"Artiste 015", genre:"soul", lyrics:""},
+  {id:16, emoji:"🎵", title:"Titre 016", artist:"Artiste 016", genre:"var",  lyrics:""},
+  {id:17, emoji:"🎵", title:"Titre 017", artist:"Artiste 017", genre:"pop",  lyrics:""},
+  {id:18, emoji:"🎵", title:"Titre 018", artist:"Artiste 018", genre:"rnb",  lyrics:""},
+  {id:19, emoji:"🎵", title:"Titre 019", artist:"Artiste 019", genre:"rap",  lyrics:""},
+  {id:20, emoji:"🎵", title:"Titre 020", artist:"Artiste 020", genre:"pop",  lyrics:""},
+  {id:21, emoji:"🎵", title:"Titre 021", artist:"Artiste 021", genre:"rock", lyrics:""},
+  {id:22, emoji:"🎵", title:"Titre 022", artist:"Artiste 022", genre:"elec", lyrics:""},
+  {id:23, emoji:"🎵", title:"Titre 023", artist:"Artiste 023", genre:"soul", lyrics:""},
+  {id:24, emoji:"🎵", title:"Titre 024", artist:"Artiste 024", genre:"var",  lyrics:""},
+  {id:25, emoji:"🎵", title:"Titre 025", artist:"Artiste 025", genre:"pop",  lyrics:""},
+  {id:26, emoji:"🎵", title:"Titre 026", artist:"Artiste 026", genre:"rnb",  lyrics:""},
+  {id:27, emoji:"🎵", title:"Titre 027", artist:"Artiste 027", genre:"rap",  lyrics:""},
+  {id:28, emoji:"🎵", title:"Titre 028", artist:"Artiste 028", genre:"pop",  lyrics:""},
+  {id:29, emoji:"🎵", title:"Titre 029", artist:"Artiste 029", genre:"rock", lyrics:""},
+  {id:30, emoji:"🎵", title:"Titre 030", artist:"Artiste 030", genre:"elec", lyrics:""},
+  {id:31, emoji:"🎵", title:"Titre 031", artist:"Artiste 031", genre:"soul", lyrics:""},
+  {id:32, emoji:"🎵", title:"Titre 032", artist:"Artiste 032", genre:"var",  lyrics:""},
+  {id:33, emoji:"🎵", title:"Titre 033", artist:"Artiste 033", genre:"pop",  lyrics:""},
+  {id:34, emoji:"🎵", title:"Titre 034", artist:"Artiste 034", genre:"rnb",  lyrics:""},
+  {id:35, emoji:"🎵", title:"Titre 035", artist:"Artiste 035", genre:"rap",  lyrics:""},
+  {id:36, emoji:"🎵", title:"Titre 036", artist:"Artiste 036", genre:"pop",  lyrics:""},
+  {id:37, emoji:"🎵", title:"Titre 037", artist:"Artiste 037", genre:"rock", lyrics:""},
+  {id:38, emoji:"🎵", title:"Titre 038", artist:"Artiste 038", genre:"elec", lyrics:""},
+  {id:39, emoji:"🎵", title:"Titre 039", artist:"Artiste 039", genre:"soul", lyrics:""},
+  {id:40, emoji:"🎵", title:"Titre 040", artist:"Artiste 040", genre:"var",  lyrics:""},
+  {id:41, emoji:"🎵", title:"Titre 041", artist:"Artiste 041", genre:"pop",  lyrics:""},
+  {id:42, emoji:"🎵", title:"Titre 042", artist:"Artiste 042", genre:"rnb",  lyrics:""},
+  {id:43, emoji:"🎵", title:"Titre 043", artist:"Artiste 043", genre:"rap",  lyrics:""},
+  {id:44, emoji:"🎵", title:"Titre 044", artist:"Artiste 044", genre:"pop",  lyrics:""},
+  {id:45, emoji:"🎵", title:"Titre 045", artist:"Artiste 045", genre:"rock", lyrics:""},
+  {id:46, emoji:"🎵", title:"Titre 046", artist:"Artiste 046", genre:"elec", lyrics:""},
+  {id:47, emoji:"🎵", title:"Titre 047", artist:"Artiste 047", genre:"soul", lyrics:""},
+  {id:48, emoji:"🎵", title:"Titre 048", artist:"Artiste 048", genre:"var",  lyrics:""},
+  {id:49, emoji:"🎵", title:"Titre 049", artist:"Artiste 049", genre:"pop",  lyrics:""},
+  {id:50, emoji:"🎵", title:"Titre 050", artist:"Artiste 050", genre:"rnb",  lyrics:""},
+  {id:51, emoji:"🎵", title:"Titre 051", artist:"Artiste 051", genre:"rap",  lyrics:""},
+  {id:52, emoji:"🎵", title:"Titre 052", artist:"Artiste 052", genre:"pop",  lyrics:""},
+  {id:53, emoji:"🎵", title:"Titre 053", artist:"Artiste 053", genre:"rock", lyrics:""},
+  {id:54, emoji:"🎵", title:"Titre 054", artist:"Artiste 054", genre:"elec", lyrics:""},
+  {id:55, emoji:"🎵", title:"Titre 055", artist:"Artiste 055", genre:"soul", lyrics:""},
+  {id:56, emoji:"🎵", title:"Titre 056", artist:"Artiste 056", genre:"var",  lyrics:""},
+  {id:57, emoji:"🎵", title:"Titre 057", artist:"Artiste 057", genre:"pop",  lyrics:""},
+  {id:58, emoji:"🎵", title:"Titre 058", artist:"Artiste 058", genre:"rnb",  lyrics:""},
+  {id:59, emoji:"🎵", title:"Titre 059", artist:"Artiste 059", genre:"rap",  lyrics:""},
+  {id:60, emoji:"🎵", title:"Titre 060", artist:"Artiste 060", genre:"pop",  lyrics:""},
+  {id:61, emoji:"🎵", title:"Titre 061", artist:"Artiste 061", genre:"rock", lyrics:""},
+  {id:62, emoji:"🎵", title:"Titre 062", artist:"Artiste 062", genre:"elec", lyrics:""},
+  {id:63, emoji:"🎵", title:"Titre 063", artist:"Artiste 063", genre:"soul", lyrics:""},
+  {id:64, emoji:"🎵", title:"Titre 064", artist:"Artiste 064", genre:"var",  lyrics:""},
+  {id:65, emoji:"🎵", title:"Titre 065", artist:"Artiste 065", genre:"pop",  lyrics:""},
+  {id:66, emoji:"🎵", title:"Titre 066", artist:"Artiste 066", genre:"rnb",  lyrics:""},
+  {id:67, emoji:"🎵", title:"Titre 067", artist:"Artiste 067", genre:"rap",  lyrics:""},
+  {id:68, emoji:"🎵", title:"Titre 068", artist:"Artiste 068", genre:"pop",  lyrics:""},
+  {id:69, emoji:"🎵", title:"Titre 069", artist:"Artiste 069", genre:"rock", lyrics:""},
+  {id:70, emoji:"🎵", title:"Titre 070", artist:"Artiste 070", genre:"elec", lyrics:""},
+  {id:71, emoji:"🎵", title:"Titre 071", artist:"Artiste 071", genre:"soul", lyrics:""},
+  {id:72, emoji:"🎵", title:"Titre 072", artist:"Artiste 072", genre:"var",  lyrics:""},
+  {id:73, emoji:"🎵", title:"Titre 073", artist:"Artiste 073", genre:"pop",  lyrics:""},
+  {id:74, emoji:"🎵", title:"Titre 074", artist:"Artiste 074", genre:"rnb",  lyrics:""},
+  {id:75, emoji:"🎵", title:"Titre 075", artist:"Artiste 075", genre:"rap",  lyrics:""},
+  {id:76, emoji:"🎵", title:"Titre 076", artist:"Artiste 076", genre:"pop",  lyrics:""},
+  {id:77, emoji:"🎵", title:"Titre 077", artist:"Artiste 077", genre:"rock", lyrics:""},
+  {id:78, emoji:"🎵", title:"Titre 078", artist:"Artiste 078", genre:"elec", lyrics:""},
+  {id:79, emoji:"🎵", title:"Titre 079", artist:"Artiste 079", genre:"soul", lyrics:""},
+  {id:80, emoji:"🎵", title:"Titre 080", artist:"Artiste 080", genre:"var",  lyrics:""},
+  {id:81, emoji:"🎵", title:"Titre 081", artist:"Artiste 081", genre:"pop",  lyrics:""},
+  {id:82, emoji:"🎵", title:"Titre 082", artist:"Artiste 082", genre:"rnb",  lyrics:""},
+  {id:83, emoji:"🎵", title:"Titre 083", artist:"Artiste 083", genre:"rap",  lyrics:""},
+  {id:84, emoji:"🎵", title:"Titre 084", artist:"Artiste 084", genre:"pop",  lyrics:""},
+  {id:85, emoji:"🎵", title:"Titre 085", artist:"Artiste 085", genre:"rock", lyrics:""},
+  {id:86, emoji:"🎵", title:"Titre 086", artist:"Artiste 086", genre:"elec", lyrics:""},
+  {id:87, emoji:"🎵", title:"Titre 087", artist:"Artiste 087", genre:"soul", lyrics:""},
+  {id:88, emoji:"🎵", title:"Titre 088", artist:"Artiste 088", genre:"var",  lyrics:""},
+  {id:89, emoji:"🎵", title:"Titre 089", artist:"Artiste 089", genre:"pop",  lyrics:""},
+  {id:90, emoji:"🎵", title:"Titre 090", artist:"Artiste 090", genre:"rnb",  lyrics:""},
+  {id:91, emoji:"🎵", title:"Titre 091", artist:"Artiste 091", genre:"rap",  lyrics:""},
+  {id:92, emoji:"🎵", title:"Titre 092", artist:"Artiste 092", genre:"pop",  lyrics:""},
+  {id:93, emoji:"🎵", title:"Titre 093", artist:"Artiste 093", genre:"rock", lyrics:""},
+  {id:94, emoji:"🎵", title:"Titre 094", artist:"Artiste 094", genre:"elec", lyrics:""},
+  {id:95, emoji:"🎵", title:"Titre 095", artist:"Artiste 095", genre:"soul", lyrics:""},
+  {id:96, emoji:"🎵", title:"Titre 096", artist:"Artiste 096", genre:"var",  lyrics:""},
+  {id:97, emoji:"🎵", title:"Titre 097", artist:"Artiste 097", genre:"pop",  lyrics:""},
+  {id:98, emoji:"🎵", title:"Titre 098", artist:"Artiste 098", genre:"rnb",  lyrics:""},
+  {id:99, emoji:"🎵", title:"Titre 099", artist:"Artiste 099", genre:"rap",  lyrics:""},
+  {id:100,emoji:"🎵", title:"Titre 100", artist:"Artiste 100", genre:"pop",  lyrics:""},
+  {id:101,emoji:"🎵", title:"Titre 101", artist:"Artiste 101", genre:"rock", lyrics:""},
+  {id:102,emoji:"🎵", title:"Titre 102", artist:"Artiste 102", genre:"elec", lyrics:""},
+  {id:103,emoji:"🎵", title:"Titre 103", artist:"Artiste 103", genre:"soul", lyrics:""},
+  {id:104,emoji:"🎵", title:"Titre 104", artist:"Artiste 104", genre:"var",  lyrics:""},
+  {id:105,emoji:"🎵", title:"Titre 105", artist:"Artiste 105", genre:"pop",  lyrics:""},
+  {id:106,emoji:"🎵", title:"Titre 106", artist:"Artiste 106", genre:"rnb",  lyrics:""},
+  {id:107,emoji:"🎵", title:"Titre 107", artist:"Artiste 107", genre:"rap",  lyrics:""},
+  {id:108,emoji:"🎵", title:"Titre 108", artist:"Artiste 108", genre:"pop",  lyrics:""},
+  {id:109,emoji:"🎵", title:"Titre 109", artist:"Artiste 109", genre:"rock", lyrics:""},
+  {id:110,emoji:"🎵", title:"Titre 110", artist:"Artiste 110", genre:"elec", lyrics:""},
+  {id:111,emoji:"🎵", title:"Titre 111", artist:"Artiste 111", genre:"soul", lyrics:""},
+  {id:112,emoji:"🎵", title:"Titre 112", artist:"Artiste 112", genre:"var",  lyrics:""},
+  {id:113,emoji:"🎵", title:"Titre 113", artist:"Artiste 113", genre:"pop",  lyrics:""},
+  {id:114,emoji:"🎵", title:"Titre 114", artist:"Artiste 114", genre:"rnb",  lyrics:""},
+  {id:115,emoji:"🎵", title:"Titre 115", artist:"Artiste 115", genre:"rap",  lyrics:""},
+  {id:116,emoji:"🎵", title:"Titre 116", artist:"Artiste 116", genre:"pop",  lyrics:""},
+  {id:117,emoji:"🎵", title:"Titre 117", artist:"Artiste 117", genre:"rock", lyrics:""},
+  {id:118,emoji:"🎵", title:"Titre 118", artist:"Artiste 118", genre:"elec", lyrics:""},
+  {id:119,emoji:"🎵", title:"Titre 119", artist:"Artiste 119", genre:"soul", lyrics:""},
+  {id:120,emoji:"🎵", title:"Titre 120", artist:"Artiste 120", genre:"var",  lyrics:""},
+  {id:121,emoji:"🎵", title:"Titre 121", artist:"Artiste 121", genre:"pop",  lyrics:""},
+  {id:122,emoji:"🎵", title:"Titre 122", artist:"Artiste 122", genre:"rnb",  lyrics:""},
+  {id:123,emoji:"🎵", title:"Titre 123", artist:"Artiste 123", genre:"rap",  lyrics:""},
+  {id:124,emoji:"🎵", title:"Titre 124", artist:"Artiste 124", genre:"pop",  lyrics:""},
+  {id:125,emoji:"🎵", title:"Titre 125", artist:"Artiste 125", genre:"rock", lyrics:""},
+  {id:126,emoji:"🎵", title:"Titre 126", artist:"Artiste 126", genre:"elec", lyrics:""},
+  {id:127,emoji:"🎵", title:"Titre 127", artist:"Artiste 127", genre:"soul", lyrics:""},
+  {id:128,emoji:"🎵", title:"Titre 128", artist:"Artiste 128", genre:"var",  lyrics:""},
+  {id:129,emoji:"🎵", title:"Titre 129", artist:"Artiste 129", genre:"pop",  lyrics:""},
+  {id:130,emoji:"🎵", title:"Titre 130", artist:"Artiste 130", genre:"rnb",  lyrics:""},
+  {id:131,emoji:"🎵", title:"Titre 131", artist:"Artiste 131", genre:"rap",  lyrics:""},
+  {id:132,emoji:"🎵", title:"Titre 132", artist:"Artiste 132", genre:"pop",  lyrics:""},
+  {id:133,emoji:"🎵", title:"Titre 133", artist:"Artiste 133", genre:"rock", lyrics:""},
+  {id:134,emoji:"🎵", title:"Titre 134", artist:"Artiste 134", genre:"elec", lyrics:""},
+  {id:135,emoji:"🎵", title:"Titre 135", artist:"Artiste 135", genre:"soul", lyrics:""},
+  {id:136,emoji:"🎵", title:"Titre 136", artist:"Artiste 136", genre:"var",  lyrics:""},
+  {id:137,emoji:"🎵", title:"Titre 137", artist:"Artiste 137", genre:"pop",  lyrics:""},
+  {id:138,emoji:"🎵", title:"Titre 138", artist:"Artiste 138", genre:"rnb",  lyrics:""},
+  {id:139,emoji:"🎵", title:"Titre 139", artist:"Artiste 139", genre:"rap",  lyrics:""},
+  {id:140,emoji:"🎵", title:"Titre 140", artist:"Artiste 140", genre:"pop",  lyrics:""},
+  {id:141,emoji:"🎵", title:"Titre 141", artist:"Artiste 141", genre:"rock", lyrics:""},
+  {id:142,emoji:"🎵", title:"Titre 142", artist:"Artiste 142", genre:"elec", lyrics:""},
+  {id:143,emoji:"🎵", title:"Titre 143", artist:"Artiste 143", genre:"soul", lyrics:""},
+  {id:144,emoji:"🎵", title:"Titre 144", artist:"Artiste 144", genre:"var",  lyrics:""},
+  {id:145,emoji:"🎵", title:"Titre 145", artist:"Artiste 145", genre:"pop",  lyrics:""},
+  {id:146,emoji:"🎵", title:"Titre 146", artist:"Artiste 146", genre:"rnb",  lyrics:""},
+  {id:147,emoji:"🎵", title:"Titre 147", artist:"Artiste 147", genre:"rap",  lyrics:""},
+  {id:148,emoji:"🎵", title:"Titre 148", artist:"Artiste 148", genre:"pop",  lyrics:""},
+  {id:149,emoji:"🎵", title:"Titre 149", artist:"Artiste 149", genre:"rock", lyrics:""},
+  {id:150,emoji:"🎵", title:"Titre 150", artist:"Artiste 150", genre:"elec", lyrics:""},
+  {id:151,emoji:"🎵", title:"Titre 151", artist:"Artiste 151", genre:"soul", lyrics:""},
+  {id:152,emoji:"🎵", title:"Titre 152", artist:"Artiste 152", genre:"var",  lyrics:""},
+  {id:153,emoji:"🎵", title:"Titre 153", artist:"Artiste 153", genre:"pop",  lyrics:""},
+  {id:154,emoji:"🎵", title:"Titre 154", artist:"Artiste 154", genre:"rnb",  lyrics:""},
+  {id:155,emoji:"🎵", title:"Titre 155", artist:"Artiste 155", genre:"rap",  lyrics:""},
+  {id:156,emoji:"🎵", title:"Titre 156", artist:"Artiste 156", genre:"pop",  lyrics:""},
+  {id:157,emoji:"🎵", title:"Titre 157", artist:"Artiste 157", genre:"rock", lyrics:""},
+  {id:158,emoji:"🎵", title:"Titre 158", artist:"Artiste 158", genre:"elec", lyrics:""},
+  {id:159,emoji:"🎵", title:"Titre 159", artist:"Artiste 159", genre:"soul", lyrics:""},
+  {id:160,emoji:"🎵", title:"Titre 160", artist:"Artiste 160", genre:"var",  lyrics:""},
+  {id:161,emoji:"🎵", title:"Titre 161", artist:"Artiste 161", genre:"pop",  lyrics:""},
+  // MARKER_AJOUT
+];
+
+// ══════════════ STATE ══════════════
+let currentGenre = "all";
+let currentQuery = "";
+
+// ══════════════ THEME ══════════════
+(function(){ const t=localStorage.getItem("cf-theme")||"dark"; document.documentElement.setAttribute("data-theme",t); })();
+function toggleTheme(){
+  const isDark=document.documentElement.getAttribute("data-theme")==="dark";
+  document.documentElement.setAttribute("data-theme",isDark?"light":"dark");
+  document.getElementById("themeBtn").textContent=isDark?"☀️":"🌙";
+  localStorage.setItem("cf-theme",isDark?"light":"dark");
+}
+
+// ══════════════ FILTER ══════════════
+function setGenre(g, el){
+  currentGenre=g;
+  document.querySelectorAll(".fpill").forEach(p=>p.classList.remove("active"));
+  el.classList.add("active");
+  renderList();
+}
+function doSearch(){
+  currentQuery=document.getElementById("search").value.trim().toLowerCase();
+  document.getElementById("clearBtn").style.display=currentQuery?"block":"none";
+  renderList();
+}
+function clearSearch(){
+  document.getElementById("search").value="";
+  currentQuery="";
+  document.getElementById("clearBtn").style.display="none";
+  renderList();
+}
+function getFiltered(){
+  return TRACKS.filter(t=>{
+    const genreOk = currentGenre==="all"||t.genre===currentGenre;
+    if(!currentQuery) return genreOk;
+    const q=currentQuery;
+    return genreOk && (
+      t.title.toLowerCase().includes(q)||
+      t.artist.toLowerCase().includes(q)||
+      (t.lyrics&&t.lyrics.toLowerCase().includes(q))
+    );
+  });
+}
+
+// ══════════════ HIGHLIGHT ══════════════
+function hl(str){
+  if(!currentQuery||!str) return str||"";
+  const re=new RegExp("("+currentQuery.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi");
+  return str.replace(re,"<mark>$1</mark>");
+}
+
+// ══════════════ RENDER ══════════════
+function renderList(){
+  const data=getFiltered();
+  const list=document.getElementById("list");
+  const noRes=document.getElementById("noRes");
+  document.getElementById("countTxt").textContent=data.length+" piste"+(data.length>1?"s":"");
+  if(!data.length){ list.innerHTML=""; noRes.style.display="block"; return; }
+  noRes.style.display="none";
+  list.innerHTML=data.map((t,i)=>`
+    <div class="track-card" id="card-${t.id}" style="animation-delay:${Math.min(i*.015,.3)}s">
+      <div class="track-header" onclick="toggleCard(${t.id})">
+        <span class="track-num">${String(t.id).padStart(3,"0")}</span>
+        <span class="track-emoji">${t.emoji||"🎵"}</span>
+        <div class="track-info">
+          <div class="track-title">${hl(t.title)}</div>
+          <div class="track-artist">${hl(t.artist)}</div>
+        </div>
+        <div class="track-meta">
+          <span class="genre-tag g-${t.genre}">${genreLabel(t.genre)}</span>
+          <span class="chevron">⌄</span>
+        </div>
+      </div>
+      <div class="lyrics-panel">
+        <div class="lyrics-inner">
+          <div class="lyrics-txt" id="lt-${t.id}">${renderLyrics(t.lyrics)}</div>
+          <div class="lyrics-edit" id="le-${t.id}">
+            <textarea id="lta-${t.id}" placeholder="Colle les paroles ici…">${t.lyrics||""}</textarea>
+            <div class="edit-actions">
+              <button class="lbtn lbtn-save" onclick="saveLyrics(${t.id})">💾 Enregistrer</button>
+              <button class="lbtn lbtn-cancel" onclick="cancelEdit(${t.id})">Annuler</button>
+            </div>
+          </div>
+          <div class="lyrics-actions" id="la-${t.id}">
+            ${t.lyrics?`<button class="lbtn lbtn-copy" onclick="copyLyrics(${t.id})">📋 Copier</button>`:""}
+            <button class="lbtn lbtn-edit" onclick="startEdit(${t.id})">✏️ ${t.lyrics?"Modifier":"Ajouter paroles"}</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join("");
+}
+function genreLabel(g){
+  const m={pop:"Pop",rnb:"R&B",rap:"Rap",rock:"Rock",elec:"Électro",soul:"Soul",var:"Variété"};
+  return m[g]||g;
+}
+function renderLyrics(txt){
+  if(!txt) return '<div class="empty-lyrics">✨ Paroles non renseignées — clique sur « Ajouter paroles »</div>';
+  const escaped=txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const formatted=escaped.replace(/\[(.*?)\]/g,'<span class="verse-label">[$1]</span>');
+  const withChorus=formatted.replace(/(refrain|chorus|hook)/gi,m=>`<span class="chorus">${m}</span>`);
+  if(currentQuery){
+    const re=new RegExp("("+currentQuery.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi");
+    return withChorus.replace(re,"<mark>$1</mark>");
+  }
+  return withChorus;
+}
+
+// ══════════════ CARD TOGGLE ══════════════
+function toggleCard(id){
+  const card=document.getElementById("card-"+id);
+  const wasOpen=card.classList.contains("open");
+  document.querySelectorAll(".track-card.open").forEach(c=>c.classList.remove("open"));
+  if(!wasOpen) card.classList.add("open");
+}
+
+// ══════════════ EDIT LYRICS ══════════════
+function startEdit(id){
+  document.getElementById("lt-"+id).style.display="none";
+  document.getElementById("la-"+id).style.display="none";
+  document.getElementById("le-"+id).classList.add("open");
+  document.getElementById("lta-"+id).focus();
+}
+function cancelEdit(id){
+  document.getElementById("le-"+id).classList.remove("open");
+  document.getElementById("lt-"+id).style.display="block";
+  document.getElementById("la-"+id).style.display="flex";
+}
+function saveLyrics(id){
+  const txt=document.getElementById("lta-"+id).value.trim();
+  const t=TRACKS.find(x=>x.id===id); if(!t)return;
+  t.lyrics=txt;
+  document.getElementById("lt-"+id).innerHTML=renderLyrics(txt);
+  document.getElementById("lt-"+id).style.display="block";
+  document.getElementById("la-"+id).style.display="flex";
+  document.getElementById("la-"+id).innerHTML=`
+    ${txt?`<button class="lbtn lbtn-copy" onclick="copyLyrics(${id})">📋 Copier</button>`:""}
+    <button class="lbtn lbtn-edit" onclick="startEdit(${id})">✏️ ${txt?"Modifier":"Ajouter paroles"}</button>`;
+  document.getElementById("le-"+id).classList.remove("open");
+}
+function copyLyrics(id){
+  const t=TRACKS.find(x=>x.id===id); if(!t||!t.lyrics)return;
+  navigator.clipboard.writeText(t.title+"\n"+t.artist+"\n\n"+t.lyrics).then(()=>{
+    const btn=event.target; const orig=btn.textContent;
+    btn.textContent="✓ Copié !"; setTimeout(()=>btn.textContent=orig,2000);
+  });
+}
+
+// ══════════════ ADD MODAL ══════════════
+function openAdd(){ document.getElementById("modalBg").classList.add("open"); }
+function closeAdd(){ document.getElementById("modalBg").classList.remove("open"); }
+document.getElementById("modalBg").addEventListener("click",e=>{ if(e.target===document.getElementById("modalBg"))closeAdd(); });
+function saveTrack(){
+  const title=document.getElementById("mf-title").value.trim();
+  const artist=document.getElementById("mf-artist").value.trim();
+  if(!title||!artist){alert("⚠️ Titre et artiste sont requis.");return;}
+  const genre=document.getElementById("mf-genre").value;
+  const emoji=document.getElementById("mf-emoji").value.trim()||"🎵";
+  const lyrics=document.getElementById("mf-lyrics").value.trim();
+  const newId=Math.max(...TRACKS.map(t=>t.id))+1;
+  TRACKS.push({id:newId,emoji,title,artist,genre,lyrics});
+  document.getElementById("totalCount").textContent=TRACKS.length;
+  closeAdd();
+  ["mf-title","mf-artist","mf-emoji","mf-lyrics"].forEach(id=>document.getElementById(id).value="");
+  renderList();
+}
+
+// ══════════════ INIT ══════════════
+document.getElementById("totalCount").textContent=TRACKS.length;
+renderList();
+</script>
 </body>
 </html>
